@@ -1,0 +1,4 @@
+ long startTime = System.currentTimeMillis();
+        long result = fibonacci(n);
+        long endTime = System.currentTimeMillis();
+        long executionTime = endTime - startTime;
