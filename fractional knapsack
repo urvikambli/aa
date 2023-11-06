@@ -1,0 +1,44 @@
+import time
+
+def fractional_knapsack(weights, values, capacity):
+    res = 0
+    selected_items = []  # List to store selected items
+
+    # Pair: [Weight, Value]
+    items = list(zip(weights, values))
+    
+    # Sort items by value-to-weight ratio in descending order
+    items.sort(key=lambda x: x[1] / x[0], reverse=True)
+    
+    for pair in items:
+        if capacity <= 0:  # Capacity completed - Bag fully filled
+            break
+        if pair[0] > capacity:
+            # Calculate the fraction of the item to be added
+            fraction = capacity / pair[0]
+            res += fraction * pair[1]
+            selected_items.append((pair, fraction))
+            capacity = 0
+        else:
+            res += pair[1]
+            selected_items.append((pair, 1))
+            capacity -= pair[0]
+
+    return res, selected_items
+
+if __name__ == "__main__":
+    weights = [10, 20, 30]
+    values = [60, 100, 120]
+    capacity = 50
+
+    start_time = time.time()
+    max_value, selected_items = fractional_knapsack(weights, values, capacity)
+    end_time = time.time()
+
+    print("Maximum value:", max_value)
+    print("Selected items:")
+    for item, fraction in selected_items:
+        weight, value = item
+        print(f"Weight: {weight}, Value: {value}, Fraction: {fraction}")
+
+    print("Time taken:", end_time - start_time, "seconds")
